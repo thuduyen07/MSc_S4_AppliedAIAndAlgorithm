@@ -21,10 +21,40 @@ def BFS(matrix, start, end):
     path: list
         Founded path
     """
-    # TODO: 
-   
+
     path=[]
     visited={}
+
+    node = start
+    visited.update({node: None})
+
+    if node == end:
+        path.append(node)
+        return visited, path
+    
+    frontier = []
+    frontier.append(node)
+    while frontier:
+        if frontier.empty():
+            path.append(end) #?
+            return visited, path
+        
+        node = frontier.pop(0)
+        visited.append(node)
+
+        for i in range(len(matrix[node])):
+            if matrix[node][i] != 0 \
+            and i not in visited \
+            and i not in frontier:
+                
+                if i == end:
+                    path.append(node)
+                    break
+
+                frontier.append(i)
+                visited.update({i: node})
+                path.append(frontier.get(0))
+        
 
     return visited, path
 
@@ -49,11 +79,10 @@ def DFS(matrix, start, end):
         Founded path
     """
 
-    # TODO: 
-    
     path=[]
     visited={}
-   
+
+
     return visited, path
 
 
