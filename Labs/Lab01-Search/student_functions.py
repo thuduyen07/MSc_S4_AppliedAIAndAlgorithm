@@ -40,7 +40,6 @@ def BFS(matrix, start, end):
             return visited, path
         
         node = frontier.pop(0)
-        visited.append(node)
 
         for i in range(len(matrix[node])):
             if matrix[node][i] != 0 \
@@ -53,7 +52,7 @@ def BFS(matrix, start, end):
 
                 frontier.append(i)
                 visited.update({i: node})
-                path.append(frontier.get(0))
+                path.append(frontier[0])
         
 
     return visited, path
