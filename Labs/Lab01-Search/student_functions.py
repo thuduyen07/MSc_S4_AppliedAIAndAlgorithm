@@ -35,7 +35,7 @@ def BFS(matrix, start, end):
     frontier = []
     frontier.append(node)
     while frontier:
-        if frontier.empty():
+        if not frontier:
             path.append(end) #?
             return visited, path
         
