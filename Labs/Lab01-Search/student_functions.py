@@ -81,7 +81,35 @@ def DFS(matrix, start, end):
     path=[]
     visited={}
 
+    node = start
+    visited.update({node: None})
 
+    if node == end:
+        path.append(node)
+        return visited, path
+    
+    frontier = []
+    frontier.append(node)
+    while frontier:
+        if not frontier:
+            path.append(end) #?
+            return visited, path
+        
+        node = frontier.pop()
+
+        for i in range(len(matrix[node])):
+            if matrix[node][i] != 0 \
+            and i not in visited \
+            and i not in frontier:
+                
+                if i == end:
+                    path.append(node)
+                    break
+
+                frontier.append(i)
+                visited.update({i: node})
+                path.append(frontier[0])
+        
     return visited, path
 
 
