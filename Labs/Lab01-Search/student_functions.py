@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def BFS(matrix, start, end):
     """
     BFS algorithm:
@@ -34,27 +33,34 @@ def BFS(matrix, start, end):
     
     frontier = []
     frontier.append(node)
+    explored = []
+
     while frontier:
         if not frontier:
             path.append(end) #?
             return visited, path
         
         node = frontier.pop(0)
+        explored.append(node)
 
         for i in range(len(matrix[node])):
-            if matrix[node][i] != 0 \
-            and i not in visited \
-            and i not in frontier:
+            cost = matrix[node][i]
+            nextNode = i
+
+            if  cost != 0 \
+            and nextNode not in explored \
+            and nextNode not in frontier:
                 
-                if i == end:
+                if nextNode == end:
                     path.append(node)
-                    break
+                    return visited, path
 
-                frontier.append(i)
-                visited.update({i: node})
-                path.append(frontier[0])
+
+                frontier.append(nextNode)
+                visited.update({nextNode: node}) 
+
+        path.append(frontier[0])
         
-
     return visited, path
 
 def DFS(matrix, start, end):

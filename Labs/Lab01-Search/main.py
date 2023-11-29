@@ -1,11 +1,17 @@
 from Animations import run
 import sys
 
+
 if __name__ == '__main__':
     """
         Argument from command line: `python main.py <input_file_path> <algorithm> <time_delay>(optional)`
         search_algorithm must be one of ['bfs', 'dfs', 'ucs','ids', 'greedy', 'astar']
     """
+    sys.argv = [
+        "Lab01-Search\main.py",
+        "Lab01-Search\input.txt",
+        "bfs"
+    ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):
         raise Exception("Wrong input!!!")
     input = str(sys.argv[1])
