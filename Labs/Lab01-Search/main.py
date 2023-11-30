@@ -9,8 +9,8 @@ if __name__ == '__main__':
     """
     sys.argv = [
         "Labs/Lab01-Search/main.py",
-        "Labs/Lab01-Search/input.txt",
-        "dfs"
+        "Labs/Lab01-Search/graph_matrix.txt",
+        "bfs"
     ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):
         raise Exception("Wrong input!!!")
