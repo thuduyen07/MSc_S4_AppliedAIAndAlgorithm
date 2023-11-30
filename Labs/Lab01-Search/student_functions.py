@@ -36,10 +36,8 @@ def BFS(matrix, start, end):
         path.append(current_node)
 
         if current_node == end:
-            # while current_node is not None:
-                path.append(current_node)
-            #     #current_node = visited[current_node]
-                break
+            path.append(current_node)
+            break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
             if isConnected and neighbor not in visited and neighbor not in explored:
@@ -81,27 +79,33 @@ def DFS(matrix, start, end):
     path=[]
     visited={}
     stack = deque([start])
-    visited[start] = None
+    visited.update({start: None})
+    explored = []
 
     while stack:
+
         current_node = stack.pop()
+        explored.append(current_node)
+        path.append(current_node)
 
         if current_node == end:
-            while current_node is not None:
-                path.insert(0, current_node)
-                current_node = visited[current_node]
+            path.append(current_node)
             break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
-            if isConnected and neighbor not in visited:
-                visited[neighbor] = current_node
+            if isConnected and neighbor not in visited and neighbor not in explored:
+                if neighbor == end:
+                    path.append(neighbor)
+                    print("Final Visited: ", visited)
+                    print("Final Path: ", path)
+                    return visited, path
+                
+                visited.update({neighbor: current_node})
                 stack.append(neighbor)
-                path.append(neighbor)
-        
-        
-    print("Visited: ", visited)
-    print("Path: ", path)
-    
+            
+    print("Final Visited: ", visited)
+    print("Final Path: ", path)
+
     return visited, path
 
 def UCS(matrix, start, end):
