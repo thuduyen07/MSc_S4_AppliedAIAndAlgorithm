@@ -8,8 +8,8 @@ if __name__ == '__main__':
         search_algorithm must be one of ['bfs', 'dfs', 'ucs','ids', 'greedy', 'astar']
     """
     sys.argv = [
-        "Lab01-Search\main.py",
-        "Lab01-Search\input.txt",
+        "Labs/Lab01-Search/main.py",
+        "Labs/Lab01-Search/input.txt",
         "bfs"
     ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):

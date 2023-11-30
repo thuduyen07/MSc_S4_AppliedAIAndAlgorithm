@@ -26,24 +26,34 @@ def BFS(matrix, start, end):
     path=[]
     visited={}
     queue = deque([start])
-    visited[start] = None
-
+    visited.update({start: None})
+    explored = []
+    
     while queue:
+
         current_node = queue.popleft()
+        explored.append(current_node)
+        path.append(current_node)
 
         if current_node == end:
-            while current_node is not None:
-                path.insert(0, current_node)
-                current_node = visited[current_node]
-            break
+            # while current_node is not None:
+                path.append(current_node)
+            #     #current_node = visited[current_node]
+                break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
-            if isConnected and neighbor not in visited:
-                visited[neighbor] = current_node
+            if isConnected and neighbor not in visited and neighbor not in explored:
+                if neighbor == end:
+                    path.append(neighbor)
+                    print("Final Visited: ", visited)
+                    print("Final Path: ", path)
+                    return visited, path
+                
+                visited.update({neighbor: current_node})
                 queue.append(neighbor)
-        
-    print("Visited: ", visited)
-    print("Path: ", path)
+
+    print("Final Visited: ", visited)
+    print("Final Path: ", path)
 
     return visited, path
 
@@ -86,12 +96,13 @@ def DFS(matrix, start, end):
             if isConnected and neighbor not in visited:
                 visited[neighbor] = current_node
                 stack.append(neighbor)
+                path.append(neighbor)
+        
         
     print("Visited: ", visited)
     print("Path: ", path)
     
     return visited, path
-
 
 def UCS(matrix, start, end):
     """
@@ -190,6 +201,9 @@ def DFS_limit(matrix, start, end, depth_limit):
     visited[start] = None
 
     while stack:
+        print("DFS_limit depth: ", depth_limit)
+        print("DFS_limit Visited: ", visited)
+        print("DFS_limit Path: ", path)
         current_node, current_depth = stack.pop()
 
         if current_depth > depth_limit:
@@ -199,12 +213,15 @@ def DFS_limit(matrix, start, end, depth_limit):
             while current_node is not None:
                 path.insert(0, current_node)
                 current_node = visited[current_node]
-            return visited, path
+            # return visited, path
+            break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
             if isConnected and neighbor not in visited:
                 visited[neighbor] = current_node
                 stack.append((neighbor, current_depth + 1))
+
+
 
     return visited, path
 
