@@ -1,4 +1,6 @@
 import numpy as np
+from collections import deque
+from queue import PriorityQueue
 
 def BFS(matrix, start, end):
     """
@@ -23,44 +25,26 @@ def BFS(matrix, start, end):
 
     path=[]
     visited={}
+    queue = deque([start])
+    visited[start] = None
 
-    node = start
-    visited.update({node: None})
+    while queue:
+        current_node = queue.popleft()
 
-    if node == end:
-        path.append(node)
-        return visited, path
-    
-    frontier = []
-    frontier.append(node)
-    explored = []
+        if current_node == end:
+            while current_node is not None:
+                path.insert(0, current_node)
+                current_node = visited[current_node]
+            break
 
-    while frontier:
-        if not frontier:
-            path.append(end) #?
-            return visited, path
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected and neighbor not in visited:
+                visited[neighbor] = current_node
+                queue.append(neighbor)
         
-        node = frontier.pop(0)
-        explored.append(node)
+    print("Visited: ", visited)
+    print("Path: ", path)
 
-        for i in range(len(matrix[node])):
-            cost = matrix[node][i]
-            nextNode = i
-
-            if  cost != 0 \
-            and nextNode not in explored \
-            and nextNode not in frontier:
-                
-                if nextNode == end:
-                    path.append(node)
-                    return visited, path
-
-
-                frontier.append(nextNode)
-                visited.update({nextNode: node}) 
-
-        path.append(frontier[0])
-        
     return visited, path
 
 def DFS(matrix, start, end):
@@ -86,36 +70,26 @@ def DFS(matrix, start, end):
 
     path=[]
     visited={}
+    stack = deque([start])
+    visited[start] = None
 
-    node = start
-    visited.update({node: None})
+    while stack:
+        current_node = stack.pop()
 
-    if node == end:
-        path.append(node)
-        return visited, path
+        if current_node == end:
+            while current_node is not None:
+                path.insert(0, current_node)
+                current_node = visited[current_node]
+            break
+
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected and neighbor not in visited:
+                visited[neighbor] = current_node
+                stack.append(neighbor)
+        
+    print("Visited: ", visited)
+    print("Path: ", path)
     
-    frontier = []
-    frontier.append(node)
-    while frontier:
-        if not frontier:
-            path.append(end) #?
-            return visited, path
-        
-        node = frontier.pop()
-
-        for i in range(len(matrix[node])):
-            if matrix[node][i] != 0 \
-            and i not in visited \
-            and i not in frontier:
-                
-                if i == end:
-                    path.append(node)
-                    break
-
-                frontier.append(i)
-                visited.update({i: node})
-                path.append(frontier[0])
-        
     return visited, path
 
 
@@ -141,40 +115,31 @@ def UCS(matrix, start, end):
     """
     path=[]
     visited={}
-    
-    node = start
-    visited.update({node: None})
 
-    if node == end:
-        path.append(node)
-        return visited, path
-    
-    frontier = []
-    frontier.append(node)
-    frontier.sort()
+    priorityQueue = PriorityQueue()
+    priorityQueue.put((0, start))
 
-    while frontier:
-        if not frontier:
-            path.append(end) #?
-            return visited, path
+    visited[start] = None
+
+    while priorityQueue.qsize() > 0:
+        print(priorityQueue.queue)
+        current_priority, current_node = priorityQueue.get()
+
+        if current_node == end:
+            while current_node is not None:
+                path.insert(0, current_node)
+                current_node = visited[current_node]
+            break
+
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected and neighbor not in visited:
+                visited[neighbor] = current_node
+                neighbor_priority = current_priority + matrix[current_node][neighbor]
+                priorityQueue.put((neighbor_priority, neighbor))
         
+    print("Visited: ", visited)
+    print("Path: ", path)
 
-        node = frontier.pop(0)
-
-        for i in range(len(matrix[node])):
-            if matrix[node][i] != 0 \
-            and i not in visited \
-            and i not in frontier:
-                
-                if i == end:
-                    path.append(node)
-                    break
-
-                frontier.append(i)
-                frontier.sort()
-                visited.update({i: node})
-                path.append(frontier[0])
-        
     return visited, path
 
 def IDS(matrix, start, end):
