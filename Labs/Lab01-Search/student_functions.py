@@ -162,9 +162,50 @@ def IDS(matrix, start, end):
     path: list
         Founded path
     """
-    # TODO:  
+
     path=[]
     visited={}
+
+    depth_limit = 0
+    max_depth = len(matrix)  
+
+    while depth_limit <= max_depth:
+        visited, path = DFS_limit(matrix, start, end, depth_limit)
+        if end in visited:
+            break
+        depth_limit += 1
+
+    print("Visited: ", visited)
+    print("Path: ", path)
+
+    return visited, path
+
+def DFS_limit(matrix, start, end, depth_limit):
+    """
+    Depth-limited depth-first search algorithm
+    """
+    path = []
+    visited = {}
+    stack = deque([(start, 0)])
+    visited[start] = None
+
+    while stack:
+        current_node, current_depth = stack.pop()
+
+        if current_depth > depth_limit:
+            continue
+
+        if current_node == end:
+            while current_node is not None:
+                path.insert(0, current_node)
+                current_node = visited[current_node]
+            return visited, path
+
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected and neighbor not in visited:
+                visited[neighbor] = current_node
+                stack.append((neighbor, current_depth + 1))
+
     return visited, path
 
 def GBFS(matrix, start, end):
