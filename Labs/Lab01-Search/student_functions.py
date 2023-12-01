@@ -33,7 +33,6 @@ def BFS(matrix, start, end):
 
         current_node = queue.popleft()
         explored.append(current_node)
-        #path.append(current_node)
 
         if current_node == end:
             while current_node is not None:
@@ -92,24 +91,32 @@ def DFS(matrix, start, end):
 
     while stack:
 
-        current_node = stack.pop()
+        current_node = stack.popleft()
         explored.append(current_node)
-        path.append(current_node)
 
         if current_node == end:
-            path.append(current_node)
+            while current_node is not None:
+                path.append(current_node)
+                current_node = visited[current_node]
+            path.reverse()
             break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
             if isConnected and neighbor not in visited and neighbor not in explored:
+
+                visited.update({neighbor: current_node})
+                stack.append(neighbor)
+
                 if neighbor == end:
                     path.append(neighbor)
+                    while current_node is not None:
+                        path.append(current_node)
+                        current_node = visited[current_node]
+                    path.reverse()
                     print("Final Visited: ", visited)
                     print("Final Path: ", path)
                     return visited, path
                 
-                visited.update({neighbor: current_node})
-                stack.append(neighbor)
             
     print("Final Visited: ", visited)
     print("Final Path: ", path)
