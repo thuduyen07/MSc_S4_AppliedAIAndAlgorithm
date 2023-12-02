@@ -165,14 +165,24 @@ def UCS(matrix, start, end):
             break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
-            if isConnected and neighbor not in visited:
-                visited[neighbor] = current_node
+            if isConnected: 
+
+                if neighbor not in visited:
+                    visited[neighbor] = current_node
+
                 neighbor_priority = current_priority + matrix[current_node][neighbor]
+
+                # check if neighbor is in queue and has smaller priority then delete it before update
+                for i, (priority, node) in enumerate(priorityQueue.queue):
+                    if node == neighbor:
+                        if priority > neighbor_priority:
+                            del priorityQueue.queue[i]
+                            break
+
                 priorityQueue.put((neighbor_priority, neighbor))
-        
+
     print("Visited: ", visited)
     print("Path: ", path)
-
     return visited, path
 
 def IDS(matrix, start, end):
