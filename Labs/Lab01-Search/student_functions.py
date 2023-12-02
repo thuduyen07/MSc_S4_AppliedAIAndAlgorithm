@@ -1,6 +1,6 @@
 import numpy as np
 from collections import deque
-from queue import PriorityQueue
+from queue import LifoQueue, PriorityQueue
 
 def BFS(matrix, start, end):
     """
@@ -47,7 +47,6 @@ def BFS(matrix, start, end):
                 visited.update({neighbor: current_node})
 
                 if neighbor == end:
-
                     path.append(neighbor)
                     while current_node is not None:
                         path.append(current_node)
@@ -87,13 +86,14 @@ def DFS(matrix, start, end):
 
     path=[]
     visited={}
-    stack = deque([start])
+    stack = LifoQueue(maxsize=max(matrix.shape))
+    stack.put(start)
     visited.update({start: None})
     explored = []
 
     while stack:
 
-        current_node = stack.popleft()
+        current_node = stack.get()
         explored.append(current_node)
 
         if current_node == end:
@@ -107,7 +107,6 @@ def DFS(matrix, start, end):
             if isConnected and neighbor not in visited and neighbor not in explored:
 
                 visited.update({neighbor: current_node})
-                stack.append(neighbor)
 
                 if neighbor == end:
                     path.append(neighbor)
@@ -115,14 +114,16 @@ def DFS(matrix, start, end):
                         path.append(current_node)
                         current_node = visited[current_node]
                     path.reverse()
+
                     print("Final Visited: ", visited)
                     print("Final Path: ", path)
                     return visited, path
                 
+                stack.put(neighbor)
+                print("stack: ", stack.queue)
             
     print("Final Visited: ", visited)
     print("Final Path: ", path)
-
     return visited, path
 
 def UCS(matrix, start, end):
