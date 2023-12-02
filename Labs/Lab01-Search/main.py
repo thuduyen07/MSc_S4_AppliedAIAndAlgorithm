@@ -9,7 +9,8 @@ if __name__ == '__main__':
     """
     sys.argv = [
         "Labs/Lab01-Search/main.py",
-        "Labs/Lab01-Search/graph_matrix.txt",
+        "Labs/Lab01-Search/input.txt",
+        # "Labs/Lab01-Search/graph_matrix.txt",
         "dfs"
     ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):

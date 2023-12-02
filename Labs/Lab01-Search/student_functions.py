@@ -43,23 +43,25 @@ def BFS(matrix, start, end):
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
             if isConnected and neighbor not in visited and neighbor not in explored:
+
+                visited.update({neighbor: current_node})
+
                 if neighbor == end:
+
                     path.append(neighbor)
                     while current_node is not None:
                         path.append(current_node)
                         current_node = visited[current_node]
                     path.reverse()
+
                     print("Final Visited: ", visited)
                     print("Final Path: ", path)
                     return visited, path
-                    # return visited, path
                 
-                visited.update({neighbor: current_node})
                 queue.append(neighbor)
 
     print("Final Visited: ", visited)
     print("Final Path: ", path)
-
     return visited, path
 
 def DFS(matrix, start, end):
