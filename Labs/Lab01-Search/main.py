@@ -12,7 +12,7 @@ if __name__ == '__main__':
         "Labs/Lab01-Search/bt3.txt",
         # "Labs/Lab01-Search/input.txt",
         # "Labs/Lab01-Search/graph_matrix.txt",
-        "ucs"
+        "ids"
     ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):
         raise Exception("Wrong input!!!")

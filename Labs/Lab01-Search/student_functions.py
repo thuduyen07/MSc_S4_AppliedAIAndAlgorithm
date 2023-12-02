@@ -220,41 +220,54 @@ def IDS(matrix, start, end):
 
     print("Visited: ", visited)
     print("Path: ", path)
-
     return visited, path
 
 def DFS_limit(matrix, start, end, depth_limit):
     """
     Depth-limited depth-first search algorithm
     """
-    path = []
-    visited = {}
-    stack = deque([(start, 0)])
-    visited[start] = None
+    path=[]
+    visited={}
+    stack = LifoQueue(maxsize=max(matrix.shape))
+    stack.put(start)
+    visited.update({start: None})
+    explored = []
 
-    while stack:
-        print("DFS_limit depth: ", depth_limit)
-        print("DFS_limit Visited: ", visited)
-        print("DFS_limit Path: ", path)
-        current_node, current_depth = stack.pop()
+    current_depth = 0
+    while stack and current_depth <= depth_limit:
 
-        if current_depth > depth_limit:
-            continue
+        current_node = stack.get()
+        explored.append(current_node)
 
         if current_node == end:
             while current_node is not None:
-                path.insert(0, current_node)
+                path.append(current_node)
                 current_node = visited[current_node]
-            # return visited, path
+            path.reverse()
             break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
-            if isConnected and neighbor not in visited:
-                visited[neighbor] = current_node
-                stack.append((neighbor, current_depth + 1))
+            if isConnected and neighbor not in visited and neighbor not in explored:
 
+                visited.update({neighbor: current_node})
 
+                if neighbor == end:
+                    path.append(neighbor)
+                    while current_node is not None:
+                        path.append(current_node)
+                        current_node = visited[current_node]
+                    path.reverse()
 
+                    print("Final Visited: ", visited)
+                    print("Final Path: ", path)
+                    return visited, path
+                
+                stack.put(neighbor)
+                print("stack: ", stack.queue)
+        current_depth += 1
+            
+    print("Final Visited: ", visited)
+    print("Final Path: ", path)
     return visited, path
 
 def GBFS(matrix, start, end):
