@@ -173,13 +173,15 @@ def UCS(matrix, start, end):
                 neighbor_priority = current_priority + matrix[current_node][neighbor]
 
                 # check if neighbor is in queue and has smaller priority then delete it before update
-                for i, (priority, node) in enumerate(priorityQueue.queue):
-                    if node == neighbor:
-                        if priority > neighbor_priority:
-                            del priorityQueue.queue[i]
+                if neighbor in [node for (_, node) in priorityQueue.queue]:
+                    for i, (priority, node) in enumerate(priorityQueue.queue):
+                        if node == neighbor:
+                            if priority > neighbor_priority:
+                                del priorityQueue.queue[i]
+                                priorityQueue.put((neighbor_priority, neighbor))
                             break
-
-                priorityQueue.put((neighbor_priority, neighbor))
+                else:
+                    priorityQueue.put((neighbor_priority, neighbor))
 
     print("Visited: ", visited)
     print("Path: ", path)
@@ -319,7 +321,7 @@ def GBFS(matrix, start, end):
                 neighbor_heuristic = matrix[current_node][neighbor]
 
                 # check if neighbor is in queue and has smaller heuristic then delete it before update
-                if neighbor in [node for (priority, node) in priorityQueue.queue]:
+                if neighbor in [node for (_, node) in priorityQueue.queue]:
                     for i, (heuristic, node) in enumerate(priorityQueue.queue):
                         if node == neighbor:
                             if heuristic > neighbor_heuristic:
