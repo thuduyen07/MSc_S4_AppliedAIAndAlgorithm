@@ -356,9 +356,48 @@ def Astar(matrix, start, end, pos):
     path: list
         Founded path
     """
-    # TODO: 
 
     path=[]
     visited={}
+
+    # assume: heuristic = current_priority + sum(pos[current_node])
+
+    heuristic = 10 + sum(pos[start])
+    priorityQueue = PriorityQueue()
+    priorityQueue.put((heuristic, start))
+
+    visited[start] = None
+
+    while priorityQueue.qsize() > 0:
+        print(priorityQueue.queue)
+        current_priority, current_node = priorityQueue.get()
+        heuristic = current_priority + pos[current_node]
+        if current_node == end:
+            while current_node is not None:
+                path.append(current_node)
+                current_node = visited[current_node]
+            break
+
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected: 
+                if neighbor not in visited:
+                    visited[neighbor] = current_node
+
+                neighbor_heuristic = matrix[current_node][neighbor] + sum(pos[neighbor])
+
+                # check if neighbor is in queue and has smaller heuristic then delete it before update
+                if neighbor in [node for (priority, node) in priorityQueue.queue]:
+                    for i, (heuristic, node) in enumerate(priorityQueue.queue):
+                        if node == neighbor:
+                            if heuristic > neighbor_heuristic:
+                                del priorityQueue.queue[i]
+                                priorityQueue.put((neighbor_heuristic, neighbor))
+                            break
+                else:
+                    priorityQueue.put((neighbor_heuristic, neighbor))
+
+    path.reverse()
+    print("Visited: ", visited)
+    print("Path: ", path)
     return visited, path
 
