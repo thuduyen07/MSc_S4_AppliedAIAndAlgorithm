@@ -11,7 +11,7 @@ if __name__ == '__main__':
         "Labs/Lab01-Search/main.py",
         # "Labs/Lab01-Search/bt3.txt",
         # "Labs/Lab01-Search/input.txt",
-        "Labs/Lab01-Search/graph_matrix.txt",
+        "Labs/Lab01-Search/greedy_test.txt",
         "greedy"
     ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):

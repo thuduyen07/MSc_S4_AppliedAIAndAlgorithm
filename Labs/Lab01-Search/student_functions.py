@@ -307,27 +307,27 @@ def GBFS(matrix, start, end):
         heuristic, current_node = priorityQueue.get()
         if current_node == end:
             while current_node is not None:
-                path.insert(heuristic, current_node)
+                path.append(current_node)
                 current_node = visited[current_node]
             break
 
         for neighbor, isConnected in enumerate(matrix[current_node]):
             if isConnected: 
-
                 if neighbor not in visited:
                     visited[neighbor] = current_node
 
-                #neighbor_priority = current_priority + matrix[current_node][neighbor]
                 neighbor_heuristic = matrix[current_node][neighbor]
 
-                # # check if neighbor is in queue and has smaller heuristic then delete it before update
-                # for i, (heuristic, node) in enumerate(priorityQueue.queue):
-                #     if node == neighbor:
-                #         if heuristic > neighbor_heuristic:
-                #             del priorityQueue.queue[i]
-                #             break
-
-                priorityQueue.put((neighbor_heuristic, neighbor))
+                # check if neighbor is in queue and has smaller heuristic then delete it before update
+                if neighbor in [node for (priority, node) in priorityQueue.queue]:
+                    for i, (heuristic, node) in enumerate(priorityQueue.queue):
+                        if node == neighbor:
+                            if heuristic > neighbor_heuristic:
+                                del priorityQueue.queue[i]
+                                priorityQueue.put((neighbor_heuristic, neighbor))
+                            break
+                else:
+                    priorityQueue.put((neighbor_heuristic, neighbor))
 
     path.reverse()
     print("Visited: ", visited)
