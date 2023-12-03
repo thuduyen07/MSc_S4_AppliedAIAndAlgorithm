@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from collections import deque
 from queue import LifoQueue, PriorityQueue
@@ -362,9 +363,9 @@ def Astar(matrix, start, end, pos):
     path=[]
     visited={}
 
-    # assume: heuristic = current_priority + sum(pos[current_node])
+    # assume: heuristic = current_priority + math.dist(pos[current_node]), pos[neighbor])
 
-    heuristic = 10 + sum(pos[start])
+    heuristic = 0
     priorityQueue = PriorityQueue()
     priorityQueue.put((heuristic, start))
 
@@ -372,8 +373,7 @@ def Astar(matrix, start, end, pos):
 
     while priorityQueue.qsize() > 0:
         print(priorityQueue.queue)
-        current_priority, current_node = priorityQueue.get()
-        heuristic = current_priority + pos[current_node]
+        _, current_node = priorityQueue.get()
         if current_node == end:
             while current_node is not None:
                 path.append(current_node)
@@ -385,10 +385,10 @@ def Astar(matrix, start, end, pos):
                 if neighbor not in visited:
                     visited[neighbor] = current_node
 
-                neighbor_heuristic = matrix[current_node][neighbor] + sum(pos[neighbor])
+                neighbor_heuristic = matrix[current_node][neighbor] + math.dist(pos[neighbor], pos[current_node])
 
                 # check if neighbor is in queue and has smaller heuristic then delete it before update
-                if neighbor in [node for (priority, node) in priorityQueue.queue]:
+                if neighbor in [node for (_, node) in priorityQueue.queue]:
                     for i, (heuristic, node) in enumerate(priorityQueue.queue):
                         if node == neighbor:
                             if heuristic > neighbor_heuristic:
