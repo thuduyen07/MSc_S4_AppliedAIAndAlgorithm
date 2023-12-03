@@ -291,9 +291,47 @@ def GBFS(matrix, start, end):
     path: list
         Founded path
     """
-    # TODO: 
     path=[]
     visited={}
+
+    # assume: heuristic = current_priority
+
+    heuristic = 10
+    priorityQueue = PriorityQueue()
+    priorityQueue.put((heuristic, start))
+
+    visited[start] = None
+
+    while priorityQueue.qsize() > 0:
+        print(priorityQueue.queue)
+        heuristic, current_node = priorityQueue.get()
+        if current_node == end:
+            while current_node is not None:
+                path.insert(heuristic, current_node)
+                current_node = visited[current_node]
+            break
+
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected: 
+
+                if neighbor not in visited:
+                    visited[neighbor] = current_node
+
+                #neighbor_priority = current_priority + matrix[current_node][neighbor]
+                neighbor_heuristic = matrix[current_node][neighbor]
+
+                # # check if neighbor is in queue and has smaller heuristic then delete it before update
+                # for i, (heuristic, node) in enumerate(priorityQueue.queue):
+                #     if node == neighbor:
+                #         if heuristic > neighbor_heuristic:
+                #             del priorityQueue.queue[i]
+                #             break
+
+                priorityQueue.put((neighbor_heuristic, neighbor))
+
+    path.reverse()
+    print("Visited: ", visited)
+    print("Path: ", path)
     return visited, path
 
 def Astar(matrix, start, end, pos):
