@@ -299,108 +299,50 @@ def GBFS(matrix, start, end):
 
     # assume: heuristic = current_priority
 
-    explored = []
-    priority_queue = PriorityQueue()
+    heuristic = 10
+    priorityQueue = PriorityQueue()
+    priorityQueue.put((heuristic, start))
+
     visited[start] = None
-    current_h = 0
-    current_f = current_h
-    priority_queue.put((current_f, start))
 
-    while priority_queue.qsize() > 0:
-        print("priorityQueue: ", priority_queue.queue)
-        print("visited: ", visited)
-        current_h, current_node = priority_queue.get()
-
+    while priorityQueue.qsize() > 0:
+        print(priorityQueue.queue)
+        heuristic, current_node = priorityQueue.get()
         if current_node == end:
             while current_node is not None:
                 path.append(current_node)
                 current_node = visited[current_node]
             break
 
-        for neighbor, is_connected in enumerate(matrix[current_node]):
-            if is_connected:
-                neighbor_h = matrix[current_node][neighbor]
-                neighbor_f = neighbor_h
-                if neighbor not in visited and neighbor not in explored:
+        for neighbor, isConnected in enumerate(matrix[current_node]):
+            if isConnected: 
+                if neighbor not in visited:
                     visited[neighbor] = current_node
-                    priority_queue.put((neighbor_f, neighbor))
-                
-        explored.append(current_node)
-    
+
+                neighbor_heuristic = matrix[current_node][neighbor]
+
+                # check if neighbor is in queue and has smaller heuristic then delete it before update
+                if neighbor in [node for (_, node) in priorityQueue.queue]:
+                    for i, (heuristic, node) in enumerate(priorityQueue.queue):
+                        if node == neighbor:
+                            if heuristic > neighbor_heuristic:
+                                del priorityQueue.queue[i]
+                                priorityQueue.put((neighbor_heuristic, neighbor))
+                            break
+                else:
+                    priorityQueue.put((neighbor_heuristic, neighbor))
+
     path.reverse()
     print("Visited: ", visited)
     print("Path: ", path)
     return visited, path
-
-# def GBFS(matrix, start, end):
-#     """
-#     Greedy Best First Search algorithm 
-#     heuristic : edge weights
-#      Parameters:
-#     ---------------------------
-#     matrix: np array 
-#         The graph's adjacency matrix
-#     start: integer 
-#         starting node
-#     end: integer
-#         ending node
-   
-#     Returns
-#     ---------------------
-#     visited
-#         The dictionary contains visited nodes: each key is a visited node, 
-#         each value is the key's adjacent node which is visited before key.
-#     path: list
-#         Founded path
-#     """
-#     path=[]
-#     visited={}
-
-#     # assume: heuristic = current_priority
-
-#     heuristic = 10
-#     priorityQueue = PriorityQueue()
-#     priorityQueue.put((heuristic, start))
-
-#     visited[start] = None
-
-#     while priorityQueue.qsize() > 0:
-#         print(priorityQueue.queue)
-#         heuristic, current_node = priorityQueue.get()
-#         if current_node == end:
-#             while current_node is not None:
-#                 path.append(current_node)
-#                 current_node = visited[current_node]
-#             break
-
-#         for neighbor, isConnected in enumerate(matrix[current_node]):
-#             if isConnected: 
-#                 if neighbor not in visited:
-#                     visited[neighbor] = current_node
-
-#                 neighbor_heuristic = matrix[current_node][neighbor]
-
-#                 # check if neighbor is in queue and has smaller heuristic then delete it before update
-#                 if neighbor in [node for (_, node) in priorityQueue.queue]:
-#                     for i, (heuristic, node) in enumerate(priorityQueue.queue):
-#                         if node == neighbor:
-#                             if heuristic > neighbor_heuristic:
-#                                 del priorityQueue.queue[i]
-#                                 priorityQueue.put((neighbor_heuristic, neighbor))
-#                             break
-#                 else:
-#                     priorityQueue.put((neighbor_heuristic, neighbor))
-
-#     path.reverse()
-#     print("Visited: ", visited)
-#     print("Path: ", path)
-#     return visited, path
 
 """
 References:
 - https://www.redblobgames.com/pathfinding/a-star/implementation.html
 - https://mat.uab.cat/~alseda/MasterOpt/AStar-Algorithm.pdf
 """
+
 def Astar(matrix, start, end, pos):
     """
     A* Search algorithm
