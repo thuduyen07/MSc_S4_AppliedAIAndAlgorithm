@@ -8,13 +8,14 @@ if __name__ == '__main__':
         search_algorithm must be one of ['bfs', 'dfs', 'ucs','ids', 'greedy', 'astar']
     """
 
-    sys.argv = [
-        "Labs/Lab01-Search/main.py",
-        "Labs/Lab01-Search/Input/bt3.txt",
-        # "Labs/Lab01-Search/Input/input.txt",
-        # "Labs/Lab01-Search/Input/greedy_test.txt",
-        "bfs"
-    ]
+    # # Using for debug
+    # sys.argv = [
+    #     "Labs/Lab01-Search/main.py",
+    #     "Labs/Lab01-Search/Input/bt3.txt",
+    #     # "Labs/Lab01-Search/Input/input.txt",
+    #     # "Labs/Lab01-Search/Input/greedy_test.txt",
+    #     "bfs"
+    # ]
 
     if (len(sys.argv)<3) or (len(sys.argv)>5):
         raise Exception("Wrong input!!!")
