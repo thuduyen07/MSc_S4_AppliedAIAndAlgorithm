@@ -363,41 +363,52 @@ def Astar(matrix, start, end, pos):
     path=[]
     visited={}
 
-    # assume: heuristic = current_priority + math.dist(pos[current_node]), pos[neighbor])
+    # assume: heuristic = current_priority + math.dist(pos[current_node]), pos[end])
 
-    heuristic = 0
-    priorityQueue = PriorityQueue()
-    priorityQueue.put((heuristic, start))
-
+    explored = []
+    priority_queue = PriorityQueue()
+    current_h = math.dist(pos[start], pos[end])
     visited[start] = None
+    current_f = current_h
+    current_g = 0
+    priority_queue.put((current_f, start))
 
-    while priorityQueue.qsize() > 0:
-        print(priorityQueue.queue)
-        _, current_node = priorityQueue.get()
+    while priority_queue.qsize() > 0:
+        print("priorityQueue: ", priority_queue.queue)
+        print("visited: ", visited)
+        current_cost, current_node = priority_queue.get()
+        current_g += current_cost
+
         if current_node == end:
             while current_node is not None:
                 path.append(current_node)
                 current_node = visited[current_node]
             break
 
-        for neighbor, isConnected in enumerate(matrix[current_node]):
-            if isConnected: 
-                if neighbor not in visited:
+        for neighbor, is_connected in enumerate(matrix[current_node]):
+            if is_connected: 
+                current_neighbor_w = math.dist(pos[current_node], pos[neighbor])
+                neighbor_current_cost = current_g + current_neighbor_w
+                neighbor_g = current_g + matrix[current_node][neighbor]
+                if neighbor in visited:
+                    if neighbor_g <= neighbor_current_cost:
+                        continue
+                elif neighbor in explored:
+                    if neighbor_g < neighbor_current_cost:
+                        continue
+                    explored.remove(neighbor)
                     visited[neighbor] = current_node
-
-                neighbor_heuristic = matrix[current_node][neighbor] + math.dist(pos[neighbor], pos[current_node])
-
-                # check if neighbor is in queue and has smaller heuristic then delete it before update
-                if neighbor in [node for (_, node) in priorityQueue.queue]:
-                    for i, (heuristic, node) in enumerate(priorityQueue.queue):
-                        if node == neighbor:
-                            if heuristic > neighbor_heuristic:
-                                del priorityQueue.queue[i]
-                                priorityQueue.put((neighbor_heuristic, neighbor))
-                            break
+                    neighbor_h = math.dist(pos[neighbor], pos[end])
+                    neighbor_f = neighbor_g + neighbor_h
+                    priority_queue.put((neighbor_f, neighbor))
                 else:
-                    priorityQueue.put((neighbor_heuristic, neighbor))
+                    visited[neighbor] = current_node
+                    neighbor_h = math.dist(pos[neighbor], pos[end])
+                    neighbor_f = neighbor_g + neighbor_h
+                    priority_queue.put((neighbor_f, neighbor))
 
+        explored.append(current_node)
+    
     path.reverse()
     print("Visited: ", visited)
     print("Path: ", path)
