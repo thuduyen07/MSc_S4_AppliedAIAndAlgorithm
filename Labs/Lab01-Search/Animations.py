@@ -70,6 +70,8 @@ def run(input, algorithm, delay):
     t = 1
     update(G, pos, color_map, algorithm, t)
     visited = None
+    visited = {}
+    path = []
     if algorithm == 'bfs':
         visited, path = BFS(matrix, start, end)
     elif algorithm == 'dfs':
@@ -85,6 +87,8 @@ def run(input, algorithm, delay):
     else:
         print("Pass a search algorithm to run program.")
     
+    write_output_to_file(algorithm, visited, path)
+
     t=1
 
     searchAnimation(matrix, visited, G, pos, color_map, algorithm, t)
@@ -94,6 +98,26 @@ def run(input, algorithm, delay):
     while True:
         quit_event()
     
+def write_output_to_file(algorithm, visited, path):
+    file_path = f"Labs/Lab01-Search/Output/{algorithm}_output.txt"
+
+    try:
+        with open(file_path, 'w') as file:
+            # Write visited nodes to the file
+            file.write(f"Visited Nodes: {visited}")
+            # for node in visited:
+            #     file.write(f"{node}\n")
+
+            file.write("\n")  # Add a newline between visited nodes and path
+
+            # Write path to the file
+            file.write(f"Path: {path}")
+            # for step in path:
+            #     file.write(f"{step}\n")
+
+        print(f"Results written to {file_path}")
+    except Exception as e:
+        print(f"Error writing to file: {e}")
 
 
     
