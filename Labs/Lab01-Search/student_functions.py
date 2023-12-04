@@ -337,6 +337,12 @@ def GBFS(matrix, start, end):
     print("Path: ", path)
     return visited, path
 
+"""
+References:
+- https://www.redblobgames.com/pathfinding/a-star/implementation.html
+- https://mat.uab.cat/~alseda/MasterOpt/AStar-Algorithm.pdf
+"""
+
 def Astar(matrix, start, end, pos):
     """
     A* Search algorithm
