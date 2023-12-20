@@ -135,3 +135,12 @@ stochastic games (có yếu tố xác suất/random) - nếu đối phương đi
 - expectimax search: tính điểm trung bình theo xác suất ước lượng
 - expectimax pruning
 ![Alt text](image-23.png)
+
+## 191223
+## Logical Agent
+
+### Propotional logic (logic mệnh đề)
+
+Model
+
+Entailment
