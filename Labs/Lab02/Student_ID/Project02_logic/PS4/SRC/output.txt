@@ -1,0 +1,38 @@
+12
+-A OR B
+-B
+-A OR A
+-C OR B
+A OR -C
+A OR -C OR C
+-B OR A
+-A
+-C OR C
+-A OR A OR C
+-B OR A OR C
+-C
+NO
+8
+-A OR B
+-B
+-C OR B
+A OR -C OR C
+-A
+-A OR A OR C
+-B OR A OR C
+-C
+NO
+12
+-A OR B
+-B
+-A OR A
+-C OR B
+A OR -C
+A OR -C OR C
+-B OR A
+-A
+-C OR C
+-A OR A OR C
+-B OR A OR C
+-C
+NO
