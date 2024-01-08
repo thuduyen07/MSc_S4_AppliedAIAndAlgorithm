@@ -7,16 +7,11 @@ if __name__ == '__main__':
         Argument from command line: `python main.py <input_file_path> <algorithm> <time_delay>(optional)`
         search_algorithm must be one of ['bfs', 'dfs', 'ucs','ids', 'greedy', 'astar']
     """
-
-    # # Using for debug
-    # sys.argv = [
-    #     "Labs/Lab01-Search/main.py",
-    #     "Labs/Lab01-Search/Input/bt3.txt",
-    #     # "Labs/Lab01-Search/Input/input.txt",
-    #     # "Labs/Lab01-Search/Input/greedy_test.txt",
-    #     "bfs"
-    # ]
-
+    sys.argv = [
+        "Labs/Lab01-Search/main.py",
+        "Labs/Lab01-Search/input.txt",
+        "bfs"
+    ]
     if (len(sys.argv)<3) or (len(sys.argv)>5):
         raise Exception("Wrong input!!!")
     input = str(sys.argv[1])
