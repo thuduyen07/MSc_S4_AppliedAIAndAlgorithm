@@ -1,0 +1,31 @@
+2
+-W OR -X
+
+3
+-W OR X OR Y
+
+1
+-X
+
+3
+-X OR Y OR Z
+
+3
+-Y OR -Z OR W
+
+3
+X OR Y OR Z
+
+1
+W
+
+2
+Z OR Y
+
+1
+Y
+
+1
+X
+
+NO
