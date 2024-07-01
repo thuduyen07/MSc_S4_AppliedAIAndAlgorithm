@@ -144,3 +144,6 @@ stochastic games (có yếu tố xác suất/random) - nếu đối phương đi
 Model
 
 Entailment
+
+## Recordings
+- https://studenthcmusedu-my.sharepoint.com/:f:/g/personal/22c11005_student_hcmus_edu_vn/EricpBdsOgRFpXAlDUjBr1wBlsxCzNtOhy7M0FCfxs_Dpg?e=mjKGtG
